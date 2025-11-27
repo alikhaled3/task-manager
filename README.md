@@ -53,10 +53,19 @@ Join our community of developers creating universal apps.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
 
 
+## App Features
+
+- Add new tasks
+- Each task includes name, description, date, and time
+- Mark tasks as completed
+- Delete tasks
+- Simple UI with support for images/icons
+- Date & time selection using pickers
+- Clean layout with optional gradient backgrounds or Tailwind styling
 ## Third-Party Libraries Used
 
-Expo	Manages the project environment and builds
-@expo/vector-icons	Provides icons for buttons and UI
-React Navigation	Handles navigation & tabs
-react-native-modal-datetime-picker 	For selecting date & time
-expo-linear-gradient	Creates gradient backgrounds
+- Expo	Manages the project environment and builds
+- @expo/vector-icons	Provides icons for buttons and UI
+- React Navigation	Handles navigation & tabs
+- react-native-modal-datetime-picker 	For selecting date & time
+- expo-linear-gradient	Creates gradient backgrounds
