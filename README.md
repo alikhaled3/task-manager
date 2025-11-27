@@ -1,6 +1,9 @@
-# Welcome to your Expo app 👋
+# Welcome to your Task Manager App 👋
 
+A simple Task Manager built with React Native + Expo.
+The app allows users to add tasks, set a date & time, mark tasks as complete, and delete them.
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+
 
 ## Get started
 
@@ -48,3 +51,12 @@ Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+
+## Third-Party Libraries Used
+
+Expo	Manages the project environment and builds
+@expo/vector-icons	Provides icons for buttons and UI
+React Navigation	Handles navigation & tabs
+react-native-modal-datetime-picker 	For selecting date & time
+expo-linear-gradient	Creates gradient backgrounds
