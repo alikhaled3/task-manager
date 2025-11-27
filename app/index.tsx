@@ -1,8 +1,6 @@
 import TaskItem from "@/components/taskItem";
 import React, { useState } from "react";
 
-
-  
 import {
   View,
   Text,
@@ -14,6 +12,7 @@ import {
   Image,
   Modal,
   Platform,
+  Alert,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -37,6 +36,10 @@ export default function App() {
   const [taskTime, setTaskTime] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showTimePicker, setShowTimePicker] = useState(false);
+  
+  const showMessage = (msg: string) => {
+    Alert.alert(msg);
+  };
 
   const addTask = () => {
     const trimmed = text.trim();
@@ -46,7 +49,10 @@ export default function App() {
       id: Date.now().toString(),
       text: trimmed,
       date: taskDate.toLocaleDateString(),
-      time: taskTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      time: taskTime.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
       description,
       completed: false,
     };
@@ -58,6 +64,7 @@ export default function App() {
     setTaskTime(new Date());
     setModalVisible(false);
     Keyboard.dismiss();
+    showMessage("Task added successfully!");
   };
 
   const toggleComplete = (id: string) => {
@@ -68,10 +75,14 @@ export default function App() {
 
   const deleteTask = (id: string) => {
     setTasks((prev) => prev.filter((t) => t.id !== id));
+    showMessage("Task deleted successfully!");
   };
 
   return (
-    <LinearGradient colors={["#fff3c6ff", "#ffffffff"]} style={styles.container}>
+    <LinearGradient
+      colors={["#fff3c6ff", "#ffffffff"]}
+      style={styles.container}
+    >
       <View style={styles.headerFormat}>
         {/* <Image source={listLogo} style={styles.image} /> */}
         <View>
@@ -98,7 +109,9 @@ export default function App() {
           <Text style={styles.tabLabel}>Total</Text>
         </View>
         <View style={styles.tab}>
-          <Text style={styles.tabNumber}>{tasks.filter((t) => t.completed).length}</Text>
+          <Text style={styles.tabNumber}>
+            {tasks.filter((t) => t.completed).length}
+          </Text>
           <Text style={styles.tabLabel}>Done</Text>
         </View>
       </View>
@@ -122,83 +135,95 @@ export default function App() {
       />
 
       {/* Modal */}
-{/* Modal */}
-<Modal
-  visible={modalVisible}
-  animationType="slide"
-  transparent
-  onRequestClose={() => setModalVisible(false)}
->
-  <View style={styles.modalBackground}>
-    <View style={styles.modalContainer}>
-      <Text style={styles.modalHeader}>Add New Task</Text>
+      {/* Modal */}
+      <Modal
+        visible={modalVisible}
+        animationType="slide"
+        transparent
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalBackground}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalHeader}>Add New Task</Text>
 
-      {/* Task Name */}
-      <TextInput
-        style={styles.input}
-        placeholder="Task Name"
-        placeholderTextColor="#888"
-        value={text}
-        onChangeText={setText}
-      />
+            {/* Task Name */}
+            <TextInput
+              style={styles.input}
+              placeholder="Task Name"
+              placeholderTextColor="#888"
+              value={text}
+              onChangeText={setText}
+            />
 
-      {/* Description */}
-      <TextInput
-        style={styles.input}
-        placeholder="Description"
-        placeholderTextColor="#888"
-        value={description}
-        onChangeText={setDescription}
-      />
+            {/* Description */}
+            <TextInput
+              style={styles.input}
+              placeholder="Description"
+              placeholderTextColor="#888"
+              value={description}
+              onChangeText={setDescription}
+            />
 
-      {/* Date Picker */}
-      <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.input}>
-        <Text>{taskDate.toLocaleDateString()}</Text>
-      </TouchableOpacity>
-      {showDatePicker && (
-        <DateTimePicker
-          value={taskDate}
-          mode="date"
-          display="default"
-          onChange={(event, selectedDate) => {
-            setShowDatePicker(Platform.OS === "ios");
-            if (selectedDate) setTaskDate(selectedDate);
-          }}
-        />
-      )}
+            {/* Date Picker */}
+            <TouchableOpacity
+              onPress={() => setShowDatePicker(true)}
+              style={styles.input}
+            >
+              <Text>{taskDate.toLocaleDateString()}</Text>
+            </TouchableOpacity>
+            {showDatePicker && (
+              <DateTimePicker
+                value={taskDate}
+                mode="date"
+                display="default"
+                onChange={(event, selectedDate) => {
+                  setShowDatePicker(Platform.OS === "ios");
+                  if (selectedDate) setTaskDate(selectedDate);
+                }}
+              />
+            )}
 
-      {/* Time Picker */}
-      <TouchableOpacity onPress={() => setShowTimePicker(true)} style={styles.input}>
-        <Text>{taskTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</Text>
-      </TouchableOpacity>
-      {showTimePicker && (
-        <DateTimePicker
-          value={taskTime}
-          mode="time"
-          display="default"
-          onChange={(event, selectedTime) => {
-            setShowTimePicker(Platform.OS === "ios");
-            if (selectedTime) setTaskTime(selectedTime);
-          }}
-        />
-      )}
+            {/* Time Picker */}
+            <TouchableOpacity
+              onPress={() => setShowTimePicker(true)}
+              style={styles.input}
+            >
+              <Text>
+                {taskTime.toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </Text>
+            </TouchableOpacity>
+            {showTimePicker && (
+              <DateTimePicker
+                value={taskTime}
+                mode="time"
+                display="default"
+                onChange={(event, selectedTime) => {
+                  setShowTimePicker(Platform.OS === "ios");
+                  if (selectedTime) setTaskTime(selectedTime);
+                }}
+              />
+            )}
 
-      {/* Buttons */}
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <TouchableOpacity style={styles.modalButton} onPress={addTask}>
-          <Text style={styles.modalButtonText}>Add</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.modalButton, { backgroundColor: "#ccc" }]}
-          onPress={() => setModalVisible(false)}
-        >
-          <Text style={styles.modalButtonText}>Cancel</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  </View>
-</Modal>
-
+            {/* Buttons */}
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <TouchableOpacity style={styles.modalButton} onPress={addTask}>
+                <Text style={styles.modalButtonText}>Add</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.modalButton, { backgroundColor: "#ccc" }]}
+                onPress={() => setModalVisible(false)}
+              >
+                <Text style={styles.modalButtonText}>Cancel</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </LinearGradient>
   );
 }
@@ -223,10 +248,22 @@ const styles = StyleSheet.create({
   tabLabel: { fontSize: 14, color: "#666" },
   header: { fontSize: 26, fontWeight: "700", marginTop: 20 },
   paragraph: { fontSize: 15, fontWeight: "700", marginBottom: 12 },
-  headerFormat: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
+  headerFormat: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
   image: { marginTop: 8, marginRight: 8, width: 50, height: 50 },
   addButton: { paddingVertical: 10, paddingHorizontal: 14, borderRadius: 8 },
-  addButtonText: { color: "#ffffffff",backgroundColor:"#000000ff",padding:1,borderRadius:50, fontWeight: "600", textAlign: "left", fontSize: 30 },
+  addButtonText: {
+    color: "#ffffffff",
+    backgroundColor: "#000000ff",
+    padding: 1,
+    borderRadius: 50,
+    fontWeight: "600",
+    textAlign: "left",
+    fontSize: 30,
+  },
   empty: { marginTop: 40, alignItems: "center" },
   emptyText: { color: "#666" },
   input: {

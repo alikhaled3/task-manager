@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { Task } from '../app/index';
-
+import { Task } from "../app/index";
 
 interface Props {
   task: Task;
@@ -47,7 +46,6 @@ export default function TaskItem({ task, onToggle, onDelete }: Props) {
   );
 }
 
-
 const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
@@ -75,7 +73,6 @@ const styles = StyleSheet.create({
   },
   doneTaskBackGround: {
     backgroundColor: "#adffa0ff",
-
   },
   checkboxText: { color: "#fff", fontWeight: "700" },
   text: { flex: 1, fontSize: 16 },
