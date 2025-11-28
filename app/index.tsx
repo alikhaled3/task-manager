@@ -43,7 +43,10 @@ export default function App() {
 
   const addTask = () => {
     const trimmed = text.trim();
-    if (!trimmed) return;
+    if (!trimmed) {
+    showMessage("Task Name Requird!");
+      return;
+    }
 
     const newTask: Task = {
       id: Date.now().toString(),
